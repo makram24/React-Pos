@@ -2,6 +2,8 @@ import { BrowserRouter as Router , Routes, Route } from "react-router";
 import { Auth, Home, Orders } from "./pages";
 import Header from "./components/shared/Header";
 import BottomNav from "./components/shared/BottomNav";
+import Tables from "./pages/Tables";
+import TableOrder from "./pages/TableOrder";
 function App() {
 
   return (
@@ -9,9 +11,14 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<Auth />} />
-        <Route path="/orders" element={<Orders />} />
+        <Route path="/" element={<Auth />} />
+        <Route path="/auth/:data" element={<Auth />} />
+        <Route path="/Home/:data" element={<Home />} />
+        <Route path="/Tables/:data" element={<Tables />} />
+        <Route path="/Alerts/:data" element={<Home />} />
+        <Route path="/More/:data" element={<Home />} />
+        <Route path="/Orders/:data" element={<Orders />} />
+        <Route path="/TableOrder/:data" element={<TableOrder />} />
       </Routes>
       <BottomNav />
     </Router>
