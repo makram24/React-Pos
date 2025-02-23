@@ -11,8 +11,14 @@ import {db} from "../constants/firebase";
 import {
     collection,
     getDocs,
+    addDoc,
+    doc, 
+    query,
+    and,
+    where,
+    updateDoc
   } from "firebase/firestore";
-import InvoiceHeader from "../components/tableOrder/InvoiceHeader";
+import Invoice from "../components/tableOrder/Invoice";
 
 
 const TableOrder = () => {
@@ -21,6 +27,35 @@ const TableOrder = () => {
     const [items, setItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("All");
+    const [update, setUpdate] = useState(false);
+
+
+    const addItem = async (id, price, quantity) => {
+
+      const invoicedatas = await getDocs(query(collection(db, "Invoice") ,and(where("tableid", "==", Number(data)), where("status", "==", 0) )))
+          const res = [];
+          invoicedatas.forEach(doc => {
+            res.push({
+              id: doc.id,
+              ...doc.data()
+            })
+          })
+        const invoiceId = res[0].id;
+        const docRef = await addDoc(collection(db, "OrderDetails"), {
+          itemid: id,
+          quantity: Number(quantity),
+          invoicenumber: Number(res[0].number),
+        });
+        const newTotal = res[0].total + (price * quantity);
+        const tax  = newTotal * 0.05;
+        const docRef1 = doc(db, "Invoice", invoiceId); // Reference the document by ID
+        await updateDoc(docRef1, {
+          total: newTotal,
+          tax: tax,
+          grandtotal: (newTotal + tax),
+        });
+        setUpdate(prevState => !prevState);
+    };
 
      // Fetch categories from Firestore
      useEffect(() => {
@@ -35,10 +70,19 @@ const TableOrder = () => {
       // Fetch items from Firestore
       useEffect(() => {
         const fetchItems = async () => {
-          const querySnapshot = await getDocs(collection(db, "items"));
-          const itemList = querySnapshot.docs.map((doc) => doc.data());
-          setItems(itemList);
-          setFilteredItems(itemList);
+          const itemsCollectionRef = collection(db, "items");
+
+          const querySnapshot = await getDocs(itemsCollectionRef);
+
+                     const res = [];
+                     querySnapshot.forEach(doc => {
+                       res.push({
+                         id: doc.id,
+                         ...doc.data()
+                       })
+                     })
+          setItems(res);
+          setFilteredItems(res);
         };
         fetchItems();
       }, []);
@@ -53,7 +97,16 @@ const TableOrder = () => {
         }
       };
 
-      
+      const [quantity, setQuantity] = useState(1);
+
+      // Function to handle change from child
+      const handleQuantity = (value) => {
+        setQuantity(value);
+      };
+    
+    useEffect(() => {
+    }, [update]);
+
   return (
     <Container className='Tableorder-Item-bg-container'>
             <Row className='Tableorder-bg-container-inside mb-1'>
@@ -86,16 +139,17 @@ const TableOrder = () => {
                             <div className="d-flex justify-content-start flex-wrap">
                                 {filteredItems.map((item) => (
                                     <div key={item.id} className="item-card">
-                                    <p className="item-card-title">{item.name}</p>
-                                    <p className="item-card-category">{item.category}</p>
-                                    <div className="row align-items-center">
-                                        <div className="col-md-3">
-                                            <p className="item-card-price">{item.price}$</p>
-                                        </div>
-                                        <div className="col-md-9">
-                                            <ItemQuantity />
-                                        </div>
-                                    </div>
+                                      <p className="item-card-title">{item.name}</p>
+                                      <p className="item-card-category">{item.category}</p>
+                                      <div className="row align-items-center">
+                                          <div className="col-md-3">
+                                              <p className="item-card-price">{item.price}$</p>
+                                          </div>
+                                          <div className="col-md-9">
+                                              <ItemQuantity onChange={handleQuantity}/>
+                                          </div>
+                                      </div>
+                                      <button onClick={() => addItem(item.id , item.price, quantity )} className="btn btn-outline-warning item-card-additem" >Add</button>
                                     </div>
                                 ))}
                             </div>
@@ -103,7 +157,7 @@ const TableOrder = () => {
                     </Col>
                 </Col>
                 <Col sm={3} className='text-start'>
-                    <InvoiceHeader />
+                    <Invoice update={update} setUpdate = {setUpdate}/>
                 </Col>
             </Row>
         </Container>

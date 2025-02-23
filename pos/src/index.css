@@ -389,3 +389,12 @@ input[type=number] {
 .order-details-invoice-con::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.item-card-additem {
+  font-size: 0.7rem;
+  width: 100%;
+  padding: 3px 20px;
+  color: #9f6907;
+  border: 1px solid #9f6907;
+  margin-top: 12px;
+}
