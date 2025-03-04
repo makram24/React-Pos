@@ -23,8 +23,7 @@ const Invoice = ({ update , setUpdate }) => {
     const [date, setDate] = useState(null);
     
 
-    const Invoiceinfo = async () =>{
-
+    const Invoiceinfo = async () =>{ 
         const invoiceCollectionRef = collection(db, "Invoice");
         const doc_refs = await getDocs(query(invoiceCollectionRef,and(where("tableid", "==", Number(data)), where("status", "==", 0) )))
             const res = [];
@@ -72,12 +71,11 @@ const Invoice = ({ update , setUpdate }) => {
           {/* Customer Details */}
           <div className="d-flex justify-content-between align-items-center border-bottom pb-1">
             <div>
-              <h6 className="invoice-customer-name">Customer Name</h6>
-              <p className="invoice-num">#{invoiceData.number}</p>
+            <p className="invoice-num">Table Num: {data}</p>
               <small className="invoice-date">{date}</small>
             </div>
             <div className="d-flex align-items-center justify-content-center invoice-Table-num" >
-              <strong>{data}</strong>
+              <strong>#{invoiceData.number}</strong>
             </div>
           </div>
 

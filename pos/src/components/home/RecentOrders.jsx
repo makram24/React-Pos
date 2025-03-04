@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useEffect , useState}from 'react'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -8,7 +8,60 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { BsSearch } from "react-icons/bs";
 import OrderList from './OrderList';
 
+import {db} from "../../constants/firebase";
+
+import {
+    collection,
+    getDocs,
+    where,
+    orderBy,
+    getDoc,
+    doc,
+    query,
+} from "firebase/firestore";
+
 const RecentOrders = () => {
+    const [itemdata, setitemdata] = useState([]);
+    const [lock, setLock] = useState(true);
+
+    const OrderDetailsCollectionRef = collection(db, "OrderDetails");
+    const RecentOrdersInfo = async () =>{
+
+        const doc_refs = await getDocs(query(OrderDetailsCollectionRef, orderBy("invoicenumber")))
+        const res = [];
+        doc_refs.forEach(doc => {
+            res.push({
+            id: doc.id,
+            ...doc.data()
+            })
+        })
+        const res1 = [];
+
+        const invoiceCollectionRef = collection(db, "Invoice");
+        const doc_ref1 = await getDocs(query(invoiceCollectionRef,where("status", "==", Number(0)) ))
+
+        
+        for (let j = 0; j < res.length; j++) {
+            
+        }
+        for (let i = 0; i < res.length; i++) {
+            const item_dt = await getDoc(doc(db, "items", res[i].itemid))
+            res1.push({
+                orderid: res[i].id,
+                id: item_dt.id,
+                quantity: res[i].quantity,
+                ...item_dt.data()
+            })
+        }
+        setitemdata(res1);
+        setorderDetailsData(res);
+
+        setLock(false);
+    }
+    useEffect(() => {
+        RecentOrdersInfo();
+    }, []);
+
   return (
     <Container className='recentOrders-bg-container'>
         <Row className='recentOrders-bg-container-inside mb-3'>

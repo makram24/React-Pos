@@ -10,7 +10,7 @@ import { CgMoreVertical } from "react-icons/cg";
 import { FaRegBell } from "react-icons/fa";
 import { Link } from 'react-router';
 
-
+ 
 const BottomNav = () => {
   const [checked, setChecked] = useState(false);
   const [radioValue, setRadioValue] = useState('1');

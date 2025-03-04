@@ -1,7 +1,6 @@
 import { BrowserRouter as Router , Routes, Route } from "react-router";
 import { Auth, Home, Orders } from "./pages";
 import Header from "./components/shared/Header";
-import BottomNav from "./components/shared/BottomNav";
 import Tables from "./pages/Tables";
 import TableOrder from "./pages/TableOrder";
 function App() {
@@ -20,7 +19,7 @@ function App() {
         <Route path="/Orders/:data" element={<Orders />} />
         <Route path="/TableOrder/:data" element={<TableOrder />} />
       </Routes>
-      <BottomNav />
+      
     </Router>
     </>
   )

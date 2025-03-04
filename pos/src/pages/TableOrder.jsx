@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TableHeader from '../components/tableOrder/tableHeader'
-import { useParams } from "react-router-dom";
+import { useParams , useLocation } from "react-router-dom";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -22,6 +22,7 @@ import Invoice from "../components/tableOrder/Invoice";
 
 
 const TableOrder = () => {
+  const location = useLocation();
     const {data} = useParams();
     const [categories, setCategories] = useState([]);
     const [items, setItems] = useState([]);
@@ -29,6 +30,7 @@ const TableOrder = () => {
     const [selectedCategory, setSelectedCategory] = useState("All");
     const [update, setUpdate] = useState(false);
 
+    const userData = location.state;
 
     const addItem = async (id, price, quantity) => {
 
@@ -112,7 +114,7 @@ const TableOrder = () => {
             <Row className='Tableorder-bg-container-inside mb-1'>
                 <Col sm={9} className='text-start'>
                     <Col sm={12} className='text-start'>
-                        <TableHeader tableNp={data}/>
+                        <TableHeader tableNp={data} userId={userData.userId}/>
                     </Col>
                     <Col sm={12} className='text-start'>
                         <div className="p-1">

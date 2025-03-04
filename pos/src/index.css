@@ -398,3 +398,36 @@ input[type=number] {
   border: 1px solid #9f6907;
   margin-top: 12px;
 }
+.Nav-active {
+  background: #ffa50099;
+  color: #fff;
+  padding: 3px 20px;
+  border-radius: 4px;
+  filter: drop-shadow(2px 4px 6px #ffa5007d);
+}
+.editquen-con{
+  width: 100vw;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background: #000000c7;
+}
+.editquensub-con {
+  width: 400px;
+  position: fixed;
+  height: 150px;
+  left: 37%;
+  top: 36%;
+  background: #fff;
+  border-radius: 10px;
+  filter: drop-shadow(2px 4px 6px #ffffff7d);
+  padding: 10px;
+  color: black;
+}
+.close{
+  color: black;
+}
+.hide{
+  display: none;
+}

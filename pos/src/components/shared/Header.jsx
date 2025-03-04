@@ -1,56 +1,54 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button';
+import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import { BsSearch } from "react-icons/bs";
-
+import { IoHomeOutline , IoCartOutline} from "react-icons/io5";
+import { MdOutlineTableBar } from "react-icons/md";
+import { CgMoreVertical } from "react-icons/cg";
+import { Link } from 'react-router';
+import { IoLogoReact } from "react-icons/io5";
+import { useParams } from "react-router-dom";
 
 
 const Header = () => {
+  const {data} = useParams();
+  console.log(data)
+    const [checked, setChecked] = useState();
+
+    const active = (value) => {
+      setChecked(value);
+    }
   return (
     <>
-    {['lg'].map((expand) => (
-      <Navbar key={expand} expand={expand} className="bg-body-dark navbar-dark mb-3">
+      <Navbar className="bg-body-dark navbar-dark mb-3">
         <Container>
-          <Navbar.Brand href="#">EVOLVE POS</Navbar.Brand>
-          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
-          <Form className="d-flex w-100 justify-content-center align-items-center">
-            <InputGroup className="w-50">
-                <Button variant="outline-secondary" className='search-btn' id="button-addon1">
-                  <BsSearch />
-                </Button>
-                <Form.Control
-                    type="search"
-                    placeholder="Search"
-                    className="me-2 search-bar"
-                    aria-label="Search"
-                />
-            </InputGroup>
-         </Form>
-          <Navbar.Offcanvas
-            id={`offcanvasNavbar-expand-${expand}`}
-            aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
-            placement="end"
-          >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                Offcanvas
-              </Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="#action2">Logout</Nav.Link>
-              </Nav>
-            </Offcanvas.Body>
-          </Navbar.Offcanvas>
+              <div className={ checked == "Home" ? 'd-flex justify-content-center align-items-center Nav-active' : 'd-flex justify-content-center align-items-center'}>
+                <Link onClick={() => {active("Home")}} to={ "/Home/" + data}>
+                  <IoHomeOutline size={20} className='icon-btn'/>Home
+                </Link>
+              </div>
+              <div className={ checked == "Orders" ? 'd-flex justify-content-center align-items-center Nav-active' : 'd-flex justify-content-center align-items-center'}>
+                <Link  onClick={() => {active("Orders")}} to={ "/Orders/" + data}>
+                  <IoCartOutline size={20} className='icon-btn'/>Orders
+                </Link>
+              </div>
+              <div className='d-flex justify-content-center align-items-center'>
+                <Link  onClick={() => {active("Home")}} to={ "/Home/" + data}>
+                  <IoLogoReact size={30}/><br/>Logo
+                </Link>
+              </div>
+              <div className={ checked == "Tables" ? 'd-flex justify-content-center align-items-center Nav-active' : 'd-flex justify-content-center align-items-center'}>
+                <Link  onClick={() => {active("Tables")}} to={ "/Tables/" + data}>
+                  <MdOutlineTableBar size={20} className='icon-btn'/>Tables
+                </Link>
+              </div>
+              <div className={ checked == "More" ? 'd-flex justify-content-center align-items-center Nav-active' : 'd-flex justify-content-center align-items-center'}>
+                <Link  onClick={() => {active("More")}} to={ "/More/" + data}>
+                  <CgMoreVertical size={20} className='icon-btn'/> More
+                </Link>
+              </div>
         </Container>
       </Navbar>
-    ))}
-  </>
+      </>
   )
 }
 

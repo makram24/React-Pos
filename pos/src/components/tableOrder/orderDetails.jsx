@@ -1,6 +1,7 @@
 import React , {useEffect , useState}from 'react'
 import { RiDeleteBin2Fill } from "react-icons/ri";
-import { BiEditAlt } from "react-icons/bi";
+import { TbLibraryPlus } from "react-icons/tb";
+import { RiCloseLine } from "react-icons/ri";
 
 import {db} from "../../constants/firebase";
 
@@ -91,6 +92,31 @@ const OrderDetails = ({no, update, setUpdate}) => {
           setUpdate(!update);
         };
 
+        // const [itemquantity, setitemquantity] = useState([]);
+        const [showEditor, setShowEditor] = useState(false);
+        const [orderDetails, setOrderDetails] = useState(null);
+        const [quantity, setQuantity] = useState();
+
+        const handleUpdateClick = (orderId, quantity, price) => {
+          setOrderDetails({ orderId, quantity, price });
+          setQuantity(quantity); 
+          setShowEditor(true);
+          
+        };
+
+        const handleSave = () => {
+          if (!orderDetails) return;
+      
+          const { orderId, price } = orderDetails;
+          
+          console.log("Saving data:", { orderId, quantity, price });
+      
+          // Call your function here (replace with actual logic)
+          // updateOrder(orderId, quantity, price);
+      
+          // Close the editor after saving
+          setShowEditor(false);
+        };
 
         useEffect(() => {
           Orderinfo();
@@ -119,7 +145,7 @@ const OrderDetails = ({no, update, setUpdate}) => {
                       <div className='row'>
                           <div className='col-md-6 text-start' >
                               <RiDeleteBin2Fill size={16} onClick={() => deleteOrder(item.orderid , item.quantity, item.price)}/>
-                              <BiEditAlt size={16}/>
+                              <TbLibraryPlus size={16} onClick={() => handleUpdateClick(item.orderid , item.quantity, item.price)}/>
                           </div>
                           <div className='col-md-6 text-end'>
                               <p className='invoice-customer-name'>{item.price}$</p>
@@ -128,6 +154,25 @@ const OrderDetails = ({no, update, setUpdate}) => {
                   </div>
               </div>
             ))}
+
+      {showEditor && orderDetails && (
+        <div className='editquen-con'>
+          <div className='editquensub-con'>
+            <div className='row'>
+              <div className='col-md-10 text-start'>Edit Product Amount</div>
+              <div className='col-md-2 text-end close-con'>
+                <RiCloseLine size={30} className='close' onClick={() => setShowEditor(false)} />
+              </div>
+            </div>
+            <p><strong>Order ID:</strong> {orderDetails.orderId}</p>
+            <p><strong>Price:</strong> ${orderDetails.price}</p>
+            <input type="number" value={quantity} 
+              onChange={(e) => setQuantity(e.target.value)} />
+            <button onClick={handleSave}>Save Changes</button>
+          </div>
+        </div>
+      )}
+            
           </div>
     )
 }
