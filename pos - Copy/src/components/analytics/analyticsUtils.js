@@ -192,10 +192,10 @@ export const groupSalesByTable = (orders) => {
   const tables = {};
   
   orders.forEach(order => {
-    if (order.table) {
-      const tableId = order.table.id || order.table;
-      const tableName = order.table.name || `Table ${tableId}`;
-      
+    if (order.tableNumber) {
+      const tableId = order.tableNumber;
+      const tableName = `Table ${order.tableNumber}`;
+      console.log(order.tableNumber);
       if (!tables[tableId]) {
         tables[tableId] = {
           id: tableId,

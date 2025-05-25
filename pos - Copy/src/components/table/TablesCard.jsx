@@ -57,7 +57,7 @@ const TablesCard = ({No, Availablity , isClickable = false , createInvoice = fal
             await updateDoc(docRef1, {
                 Availability: "Booked",
                 });
-            navigate("/TableOrder");
+            navigate("/TableOrder", { state: { tableNo: No } });
     };
     const notClick = () => {
         alert(`Table is Booked by another user`);

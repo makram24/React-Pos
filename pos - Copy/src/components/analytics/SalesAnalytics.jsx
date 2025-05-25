@@ -69,6 +69,7 @@ const SalesAnalytics = () => {
         const orderTypeSales = groupSalesByOrderType(orderData);
         const discountImpact = getDiscountImpact(orderData);
         
+        console.log(orderData);
         setSalesMetrics({
           totalSales,
           categorySales,
@@ -91,6 +92,7 @@ const SalesAnalytics = () => {
     fetchOrders();
   }, [dateRange, customDateRange]);
   
+  console.log(orders);
   // Format currency
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
@@ -348,7 +350,7 @@ const SalesAnalytics = () => {
       </Card>
       
       {/* Sales by Table & Floor */}
-      <Card className="mb-4">
+      {/* <Card className="mb-4">
         <Card.Header>
           <h5 className="mb-0">Sales by Table</h5>
         </Card.Header>
@@ -378,7 +380,7 @@ const SalesAnalytics = () => {
             </tbody>
           </Table>
         </Card.Body>
-      </Card>
+      </Card> */}
       
       {/* Sales by Order Type */}
       <Card className="mb-4">
