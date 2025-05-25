@@ -48,7 +48,7 @@ const Auth = () => {
           }
           else if(res[0].role == "User"){
             history({
-              pathname: '/Home/' + res[0].id
+              pathname: '/Tables/' + res[0].id
             })
           }
         }
