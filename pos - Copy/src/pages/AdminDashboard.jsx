@@ -336,7 +336,7 @@ const AdminDashboard = () => {
     <Container className="py-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1>Admin Dashboard</h1>
-        <Button 
+        {/* <Button 
           variant="outline-danger" 
           size="sm"
           onClick={() => {
@@ -346,7 +346,7 @@ const AdminDashboard = () => {
           className="d-flex align-items-center"
         >
           <FiLogOut className="me-1" /> Sign Out
-        </Button>
+        </Button> */}
       </div>
       
       {message.text && (
